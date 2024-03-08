@@ -15,6 +15,7 @@ export const updateEntry = async (id, content) => {
     return data.data;
   }
 };
+
 export const createNewEntry = async () => {
   const res = await fetch(
     new Request(createURL("/api/journal"), {

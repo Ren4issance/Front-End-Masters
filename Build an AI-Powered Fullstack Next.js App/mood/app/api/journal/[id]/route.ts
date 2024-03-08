@@ -1,3 +1,4 @@
+import { update } from "@/util/actions";
 import { analyze } from "@/util/ai";
 import { getUserByClerkID } from "@/util/auth";
 import { prisma } from "@/util/db";
@@ -26,11 +27,21 @@ export const PATCH = async (request: Request, { params }) => {
       entryId: updatedEntry.id,
     },
     create: {
+      userId: user.id,
       entryId: updatedEntry.id,
       ...analysis,
     },
     update: analysis,
   });
+
+  try {
+    // Call revalidatePath, assuming it's a synchronous operation
+    revalidatePath("/", "layout");
+    console.log(`Successfully revalidated path: /app/(dashboard)/journal`);
+  } catch (error) {
+    // Catch any errors thrown by revalidatePath
+    console.error(`Failed to revalidate path: /app/(dashboard)/journal`, error);
+  }
 
   return NextResponse.json({ data: { ...updatedEntry, analysis: updated } });
 };

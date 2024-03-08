@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 const NewEntryCard = () => {
   const router = useRouter();
 
-  const handleOnClick = async () => {
+  async function handleOnClick() {
     const data = await createNewEntry();
     router.push(`/journal/${data.id}`);
-  };
+  }
 
   return (
     <div className="cursor-pointer overflow-hidden rounded-lg bg-white shadow">
